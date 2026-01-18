@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Number Guessing Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f5f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .game {
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      width: 350px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    input {
+      padding: 8px;
+      width: 80%;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #4caf50;
+      color: white;
+    }
+
+    button:hover {
+      background: #43a047;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .attempts {
+      margin-top: 10px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <h1>🎯 Number Guessing Game</h1>
+    <p>Guess a number between <b>1 and 100</b></p>
+
+    <input type="number" id="guess" placeholder="Enter your guess" />
+    <br />
+    <button onclick="checkGuess()">Check</button>
+
+    <div class="message" id="message"></div>
+    <div class="attempts" id="attempts">Attempts left: 7</div>
+  </div>
+
+  <script>
+    let number = Math.floor(Math.random() * 100) + 1;
+    let attempts = 7;
+
+    function checkGuess() {
+      const guessInput = document.getElementById("guess");
+      const message = document.getElementById("message");
+      const attemptsText = document.getElementById("attempts");
+
+      let guess = Number(guessInput.value);
+
+      if (!guess || guess < 1 || guess > 100) {
+        message.innerText = "❌ Please enter a number between 1 and 100";
+        return;
+      }
+
+      attempts--;
+
+      if (guess === number) {
+        message.innerText = "🎉 Correct! You guessed the number.";
+        disableGame();
+      } else if (guess > number) {
+        message.innerText = "⬆️ Your guess is greater than the number.";
+      } else {
+        message.innerText = "⬇️ Your guess is less than the number.";
+      }
+
+      attemptsText.innerText = "Attempts left: " + attempts;
+      guessInput.value = "";
+
+      if (attempts === 0 && guess !== number) {
+        message.innerText = "❌ You ran out of moves. Number was: " + number;
+        disableGame();
+      }
+    }
+
+    function disableGame() {
+      document.querySelector("button").disabled = true;
+      document.querySelector("button").style.background = "gray";
+      document.getElementById("guess").disabled = true;
+    }
+  </script>
+</body>
+</html>
